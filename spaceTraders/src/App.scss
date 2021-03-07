@@ -1,0 +1,21 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.navbar-start, .navbar-end{
+  display: flex;
+  align-items: center;
+}
+
+.toolbar{
+  display: flex;
+  justify-content: space-between;
+}
+
+.center{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
