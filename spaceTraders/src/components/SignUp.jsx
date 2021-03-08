@@ -9,7 +9,7 @@ import React, { useState, useEffect } from "react";
 import {Link, Redirect} from 'react-router-dom';
 import axios from 'axios';
 
-export const SignIn = (props) => {
+export const SignUp = (props) => {
 
   const [input, setInput] = useState({
     username: '',
@@ -28,7 +28,7 @@ export const SignIn = (props) => {
     e.preventDefault();
     const { username, token } = input
     let user = { username: username, password: token }
-    axios.post('http://localhost:3001/login', { user }, {withCredentials: true})
+    axios.post('http://localhost:3001/users', { user }, {withCredentials: true})
     .then(response => {
       if (response.data.status === 'created'){
         props.handleLogin(response.data);
@@ -48,7 +48,7 @@ export const SignIn = (props) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign Up
           </Typography>
         </div>
         <form noValidate>
@@ -72,8 +72,8 @@ export const SignIn = (props) => {
             onChange={handleChange}
           />
           <div className="signin">
-            No Account?
-            <div style={{marginBottom:'15px'}}><Link to='/signup'>Sign Up!</Link></div>
+            Already have an Account?
+            <div style={{marginBottom:'15px'}}><Link to='/login'>Sign In</Link></div>
           </div>
           <Button
             type="submit"
@@ -82,7 +82,7 @@ export const SignIn = (props) => {
             color="primary"
             onClick={handleSubmit}
           >
-            Sign In
+            Sign Up
             </Button>
         </form>
       </div>
@@ -90,4 +90,4 @@ export const SignIn = (props) => {
   )
 }
 
-export default SignIn
+export default SignUp

@@ -1,11 +1,14 @@
 import './App.scss';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import SignIn from './components/SignIn'
+import SignIn from './components/SignIn';
 import Header from './components/Header';
+import SignUp from './components/SignUp';
+import Home from './components/Home';
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 const App = () => {
-  const [profile, setProfile] = useState('');
+  const [profile, setProfile] = useState({});
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const [input, setInput] = useState({
     username: '',
@@ -14,6 +17,10 @@ const App = () => {
 
   const loginUrl = `https://api.spacetraders.io/users/${input[`username`]}`;
   const config = { headers: { Authorization: `Bearer ${input[`token`]}` } }
+
+  useEffect(() => {
+    loginStatus();
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,19 +56,44 @@ const App = () => {
     }
   }
 
+  const handleLogout = (data) =>{
+    console.log(data);
+    setisLoggedIn(false);
+    setProfile({})
+  }
+
+  const handleLogin = (data) => {
+    console.log(data);
+    setisLoggedIn(true);
+    setProfile(data.user.profile);
+  }
+
+  const loginStatus = () => {
+    axios.get('http://localhost:3001/logged_in', { withCredentials: true })
+    .then(response => {
+      if (response.data.logged_in){
+        handleLogin(response)
+      } else {
+        handleLogout(response)
+      }
+    })
+    .catch(error => console.log('api error:', error))
+  }
+
   return (
     <div className="App">
       <Header
         profile={profile}
         isLoggedIn={login}
         signin={isLoggedIn} />
-
-      { isLoggedIn === false ?
-        <SignIn
-          handleChange={handleChange}
-          login={login} /> : null}
+      <BrowserRouter>
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route exact path='/login' component={SignIn} />
+          <Route exact path='/signup' component={SignUp} />
+        </Switch>
+      </BrowserRouter>
     </div>
-
   );
 }
 

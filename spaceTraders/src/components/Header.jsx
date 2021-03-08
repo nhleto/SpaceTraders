@@ -69,7 +69,7 @@ const Header = (props) => {
               open={Boolean(anchorEl)}
               onClose={handleClose}>
               <MenuItem>{props.profile.credits} Credits</MenuItem>
-              <MenuItem>{Object.keys(props.profile.ships).length} {pluralize(props.profile.ships, 'Ship')}</MenuItem>
+              {/* <MenuItem>{Object.keys(props.profile.ships).length} {pluralize(props.profile.ships, 'Ship')}</MenuItem> */}
             </Menu>
             <Typography variant="h6" className={useStyles.title}>
               {props.profile.username}
